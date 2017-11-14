@@ -281,6 +281,7 @@ export default class GooglePlacesAutocomplete extends Component {
         key: this.props.query.key,
         placeid: rowData.place_id,
         language: this.props.query.language,
+        location: '&51.67202,39.1841&strictbounds&',
       }));
 
       if (this.props.query.origin !== null) {
@@ -421,12 +422,14 @@ export default class GooglePlacesAutocomplete extends Component {
         // your key must be allowed to use Google Maps Geocoding API
         url = 'https://maps.googleapis.com/maps/api/geocode/json?' + Qs.stringify({
           latlng: latitude + ',' + longitude,
+          location: '&51.67202,39.1841&strictbounds&',
           key: this.props.query.key,
           ...this.props.GoogleReverseGeocodingQuery,
         });
       } else {
         url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + Qs.stringify({
           location: latitude + ',' + longitude,
+          location: '&51.67202,39.1841&strictbounds&',
           key: this.props.query.key,
           ...this.props.GooglePlacesSearchQuery,
         });
@@ -475,7 +478,7 @@ export default class GooglePlacesAutocomplete extends Component {
           // console.warn("google places autocomplete: request could not be completed or has been aborted");
         }
       };
-      request.open('GET', 'https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=' + encodeURIComponent(text) + '&' + Qs.stringify(this.props.query));
+      request.open('GET', 'https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=' + encodeURIComponent(text) + '&' + Qs.stringify(this.props.query) + '&location=51.67202,39.1841&strictbounds&');
       if (this.props.query.origin !== null) {
          request.setRequestHeader('Referer', this.props.query.origin)
       }
